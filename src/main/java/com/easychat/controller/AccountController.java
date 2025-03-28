@@ -1,6 +1,7 @@
 package com.easychat.controller;
 
 import com.easychat.constants.Constants;
+import com.easychat.entity.dto.TokenUserInfoDto;
 import com.easychat.entity.vo.ResponseVo;
 import com.easychat.exception.BusinessException;
 import com.easychat.redis.RedisUtils;
@@ -52,6 +53,23 @@ public class AccountController extends ABaseController {
                 throw new BusinessException("验证码不正确");
             }
             userInfoService.register(email, password, nickName);
+            return getSuccessResponseVo(null);
+        }finally {
+            redisUtils.delete(Constants.REDIS_KEY_CHECK_CODE+checkCodeKey);
+        }
+    }
+
+    @RequestMapping("/login")
+    public ResponseVo login(@NotEmpty String checkCodeKey,
+                               @NotEmpty @Email String email,
+                               @NotEmpty String password,
+                               @NotEmpty String checkCode) throws BusinessException {
+        try {
+            if (checkCode.equalsIgnoreCase((String) redisUtils.get(Constants.REDIS_KEY_CHECK_CODE+checkCodeKey))) {
+                throw new BusinessException("验证码不正确");
+            }
+            TokenUserInfoDto tokenUserInfoDto = userInfoService.login(email, password);
+
             return getSuccessResponseVo(null);
         }finally {
             redisUtils.delete(Constants.REDIS_KEY_CHECK_CODE+checkCodeKey);
