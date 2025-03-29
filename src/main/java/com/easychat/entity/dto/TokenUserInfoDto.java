@@ -10,6 +10,22 @@ public class TokenUserInfoDto implements Serializable {
     private String nickname;
     private Boolean admin;
 
+    public String getToken() {
+        return token;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public Boolean getAdmin() {
+        return admin;
+    }
+
     public void setToken(String token) {
         this.token = token;
     }
