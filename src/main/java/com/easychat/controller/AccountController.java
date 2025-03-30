@@ -68,9 +68,9 @@ public class AccountController extends ABaseController {
 
     @RequestMapping("/login")
     public ResponseVo login(@NotEmpty String checkCodeKey,
-                               @NotEmpty @Email String email,
-                               @NotEmpty String password,
-                               @NotEmpty String checkCode) throws BusinessException {
+                            @NotEmpty @Email String email,
+                            @NotEmpty String password,
+                            @NotEmpty String checkCode) throws BusinessException {
         try {
             if (checkCode.equalsIgnoreCase((String) redisUtils.get(Constants.REDIS_KEY_CHECK_CODE+checkCodeKey))) {
                 throw new BusinessException("验证码不正确");
@@ -85,5 +85,11 @@ public class AccountController extends ABaseController {
         }finally {
             redisUtils.delete(Constants.REDIS_KEY_CHECK_CODE+checkCodeKey);
         }
+    }
+
+    @RequestMapping("/getSysSetting")
+    public ResponseVo getSysSetting() {
+
+        return getSuccessResponseVo(redisComponent.getSysSetting());
     }
 }
