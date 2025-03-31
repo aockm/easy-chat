@@ -10,6 +10,10 @@ public enum UserContactApplyStatusEnum {
     private Integer status;
     private String desc;
 
+    UserContactApplyStatusEnum(Integer status,String desc) {
+        this.status = status;
+        this.desc = desc;
+    }
     public Integer getStatus() {
         return status;
     }
