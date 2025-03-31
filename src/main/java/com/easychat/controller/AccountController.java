@@ -2,15 +2,12 @@ package com.easychat.controller;
 
 import com.easychat.annotation.GlobalInterceptor;
 import com.easychat.constants.Constants;
-import com.easychat.entity.dto.TokenUserInfoDto;
-import com.easychat.entity.po.UserInfo;
 import com.easychat.entity.vo.ResponseVo;
 import com.easychat.entity.vo.UserInfoVo;
 import com.easychat.exception.BusinessException;
 import com.easychat.redis.RedisComponent;
 import com.easychat.redis.RedisUtils;
 import com.easychat.service.UserInfoService;
-import com.easychat.utils.CopyTools;
 import com.wf.captcha.ArithmeticCaptcha;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
