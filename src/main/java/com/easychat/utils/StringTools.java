@@ -10,6 +10,9 @@ public class StringTools {
     public static String getUserId() {
         return UserContactTypeEnum.USER.getPrefix() + getRandomNumber(11);
     }
+    public static String getGroupId() {
+        return UserContactTypeEnum.GROUP.getPrefix() + getRandomNumber(11);
+    }
     public static String getRandomNumber(Integer length) {
         return RandomStringUtils.random(length,false,true);
     }
