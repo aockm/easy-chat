@@ -62,4 +62,8 @@ public interface UserInfoService {
 	UserInfoVo login(String email, String password) throws BusinessException;
 
 	void updateUserInfo(UserInfo userInfo, MultipartFile avatarFile,MultipartFile avatarCover) throws IOException;
+
+	void updateUserStatus(Integer status, String userId) throws BusinessException;
+
+	void forceOffline(String userId);
 }

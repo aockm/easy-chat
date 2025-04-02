@@ -3,9 +3,7 @@ import com.easychat.constants.Constants;
 import com.easychat.entity.config.AppConfig;
 import com.easychat.entity.dto.TokenUserInfoDto;
 import com.easychat.entity.vo.UserInfoVo;
-import com.easychat.enums.JoinTypeEnum;
-import com.easychat.enums.UserContactTypeEnum;
-import com.easychat.enums.UserStatusEnum;
+import com.easychat.enums.*;
 import com.easychat.exception.BusinessException;
 import com.easychat.redis.RedisComponent;
 import com.easychat.service.UserInfoService;
@@ -13,7 +11,6 @@ import com.easychat.entity.po.UserInfo;
 import com.easychat.entity.query.UserInfoQuery;
 import com.easychat.entity.query.SimplePage;
 import com.easychat.mappers.UserInfoMapper;
-import com.easychat.enums.PageSize;
 import com.easychat.entity.vo.PaginationResultVo;
 
 import java.io.File;
@@ -213,8 +210,21 @@ public class UserInfoServiceImpl implements UserInfoService {
 		// TODO 更新会话信息中昵称信息
 
 
+	}
 
+	@Override
+	public void updateUserStatus(Integer status, String userId) throws BusinessException {
+		UserStatusEnum statusEnum = UserStatusEnum.getByStatus(status);
+		if(statusEnum==null){
+			throw new BusinessException(ResponseCodeEnum.CODE_600);
+		}
+		UserInfo userInfo = new UserInfo();
+		userInfo.setStatus(statusEnum.getStatus());
+		this.userInfoMapper.updateByUserId(userInfo,userId);
+	}
 
-
+	@Override
+	public void forceOffline(String userId) {
+		// TODO 强制下线
 	}
 }

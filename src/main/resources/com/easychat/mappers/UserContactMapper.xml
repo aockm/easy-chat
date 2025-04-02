@@ -52,6 +52,12 @@
 		<if test="query.contactIdFuzzy!=null and query.contactIdFuzzy!='' ">
 			 and contact_id like concat ('%',#{query.contactIdFuzzy}, '%')
 		</if>
+		<if test="query.createTimeStart!=null and query.createTimeStart!=''">
+			<![CDATA[ and create_time > str_to_date(#{query.createTimeStart}, '%Y-%m-%d') ]]>
+		</if>
+		<if test="query.createTimeEnd!=null and query.createTimeEnd!=''">
+			<![CDATA[ and create_time < date_sub(str_to_date(#{query.createTimeEnd}, '%Y-%m-%d'), interval - 1 day) ]]>
+		</if>
 	</sql>
 
 	<!--扩展的查询条件-->
@@ -257,6 +263,31 @@
 			</if>
 		</set>
 		where user_id=#{userId} and contact_id=#{contactId}
+	</update>
+
+	<update id="updateByParam" parameterType="com.easychat.entity.query.UserContactQuery">
+		UPDATE user_contact c
+		<set>
+			<if test="bean.userId!=null">
+				user_id = #{bean.userId},
+			</if>
+			<if test="bean.contactId!=null">
+				contact_id = #{bean.contactId},
+			</if>
+			<if test="bean.contactType!=null">
+				contact_type = #{bean.contactType},
+			</if>
+			<if test="bean.creatTime!=null">
+				creat_time = #{bean.creatTime},
+			</if>
+			<if test="bean.status!=null">
+				status = #{bean.status},
+			</if>
+			<if test="bean.lastUpdateTime!=null">
+				last_update_time = #{bean.lastUpdateTime},
+			</if>
+		</set>
+		<include refid="base_query_condition"></include>
 	</update>
 
 	<!-- 根据UserIdAndContactId删除 -->

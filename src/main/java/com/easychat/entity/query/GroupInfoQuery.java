@@ -51,6 +51,24 @@ public class GroupInfoQuery extends BaseQuery {
 	 */
 	private Integer status;
 
+	private Boolean queryGroupOwnerName;
+	private Boolean queryMemberCount;
+
+	public Boolean getQueryGroupOwnerName() {
+		return queryGroupOwnerName;
+	}
+
+	public void setQueryGroupOwnerName(Boolean queryGroupOwnerName) {
+		this.queryGroupOwnerName = queryGroupOwnerName;
+	}
+
+	public Boolean getQueryMemberCount() {
+		return queryMemberCount;
+	}
+
+	public void setQueryMemberCount(Boolean queryMemberCount) {
+		this.queryMemberCount = queryMemberCount;
+	}
 
 	public void setGroupId(String groupId){
 		this.groupId = groupId;

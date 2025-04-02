@@ -4,9 +4,8 @@ import com.easychat.entity.config.AppConfig;
 import com.easychat.entity.dto.SysSettingDto;
 import com.easychat.entity.po.UserContact;
 import com.easychat.entity.query.UserContactQuery;
-import com.easychat.enums.ResponseCodeEnum;
-import com.easychat.enums.UserContactStatueEnum;
-import com.easychat.enums.UserContactTypeEnum;
+import com.easychat.entity.query.UserInfoQuery;
+import com.easychat.enums.*;
 import com.easychat.exception.BusinessException;
 import com.easychat.mappers.UserContactMapper;
 import com.easychat.redis.RedisComponent;
@@ -16,7 +15,6 @@ import com.easychat.entity.po.GroupInfo;
 import com.easychat.entity.query.GroupInfoQuery;
 import com.easychat.entity.query.SimplePage;
 import com.easychat.mappers.GroupInfoMapper;
-import com.easychat.enums.PageSize;
 import com.easychat.entity.vo.PaginationResultVo;
 
 import java.io.File;
@@ -189,5 +187,30 @@ public class GroupInfoServiceImpl implements GroupInfoService {
 		String filePath = targetFileFolder.getPath()+"/" + groupInfo.getGroupId();
 		avatarFile.transferTo(new File(filePath+Constants.IMAGE_SUFFIX));
 		avatarCover.transferTo(new File(filePath+Constants.COVER_IMAGE_SUFFIX));
+	}
+
+	@Override
+	public void dissolutionGroup(String groupOwnerId, String groupId) throws BusinessException {
+		GroupInfo dbInfo = this.groupInfoMapper.selectByGroupId(groupId);
+		if (dbInfo == null || !dbInfo.getGroupOwnerId().equals(groupOwnerId)){
+			throw new BusinessException(ResponseCodeEnum.CODE_600);
+		}
+		// 删除群组
+		GroupInfo updateInfo = new GroupInfo();
+		updateInfo.setStatus(GroupStatusEnum.DISSOLUTION.getStatus());
+		this.groupInfoMapper.updateByGroupId(updateInfo,groupId);
+
+		// 更新联系人信息
+		UserContactQuery userContactQuery = new UserContactQuery();
+		userContactQuery.setContactId(groupId);
+		userContactQuery.setContactType(UserContactTypeEnum.GROUP.getType());
+		UserContact updateContact = new UserContact();
+		updateContact.setStatus(UserContactStatueEnum.DEL.getStatus());
+		this.userContactMapper.updateByParam(updateContact,userContactQuery);
+
+		// TODO 移除相关群员的联系人缓存
+
+		// TODO 发消息 1、更新会话信息 2、记录群消息 3、发送群解散通知信息
+
 	}
 }

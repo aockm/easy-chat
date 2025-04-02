@@ -36,6 +36,25 @@ public class UserInfoQuery extends BaseQuery {
 
 	private Date createTime;
 
+	private String crateTimeStart;
+
+	private String crateTimeEnd;
+
+	public String getCrateTimeStart() {
+		return crateTimeStart;
+	}
+
+	public void setCrateTimeStart(String crateTimeStart) {
+		this.crateTimeStart = crateTimeStart;
+	}
+
+	public String getCrateTimeEnd() {
+		return crateTimeEnd;
+	}
+
+	public void setCrateTimeEnd(String crateTimeEnd) {
+		this.crateTimeEnd = crateTimeEnd;
+	}
 
 	public void setUserId(String userId){
 		this.userId = userId;

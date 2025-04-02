@@ -25,6 +25,7 @@ public interface UserContactMapper<T,P> extends BaseMapper {
 	 */
 	Integer updateByUserIdAndContactId(@Param("bean") T t, @Param("userId") String userId, @Param("contactId") String contactId);
 
+	Integer updateByParam(@Param("bean") T t, @Param("query") P p);
 	/**
 	 * 根据UserIdAndContactId删除
 	 */
