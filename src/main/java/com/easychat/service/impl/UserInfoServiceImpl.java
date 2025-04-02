@@ -1,4 +1,5 @@
 package com.easychat.service.impl;
+import com.easychat.constants.Constants;
 import com.easychat.entity.config.AppConfig;
 import com.easychat.entity.dto.TokenUserInfoDto;
 import com.easychat.entity.vo.UserInfoVo;
@@ -15,6 +16,8 @@ import com.easychat.mappers.UserInfoMapper;
 import com.easychat.enums.PageSize;
 import com.easychat.entity.vo.PaginationResultVo;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import javax.annotation.Resource;;
 import com.easychat.utils.CopyTools;
@@ -23,6 +26,8 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *@Description: Service
@@ -183,5 +188,33 @@ public class UserInfoServiceImpl implements UserInfoService {
 			tokenUserInfoDto.setAdmin(false);
 		}
 		return tokenUserInfoDto;
+	}
+
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public void updateUserInfo(UserInfo userInfo, MultipartFile avatarFile, MultipartFile avatarCover) throws IOException {
+
+		if (avatarFile != null) {
+			String baseFolder = appConfig.getProjectFolder()+ Constants.FILE_FOLDER_FILE;
+			File targetFileFolder = new File(baseFolder+Constants.FILE_FOLDER_AVATAR_NAME);
+			if (!targetFileFolder.exists()) {
+				targetFileFolder.mkdirs();
+			}
+			String filePath = targetFileFolder.getPath()+"/" +userInfo.getUserId()+Constants.IMAGE_SUFFIX;
+			avatarFile.transferTo(new File(filePath));
+			avatarCover.transferTo(new File(filePath+Constants.COVER_IMAGE_SUFFIX));
+		}
+		UserInfo dbInfo = this.userInfoMapper.selectByUserId(userInfo.getUserId());
+		String contactName = null;
+		this.userInfoMapper.updateByUserId(userInfo,userInfo.getUserId());
+		if (dbInfo.getNickName().equals(userInfo.getNickName())) {
+			contactName = userInfo.getNickName();
+		}
+		// TODO 更新会话信息中昵称信息
+
+
+
+
+
 	}
 }

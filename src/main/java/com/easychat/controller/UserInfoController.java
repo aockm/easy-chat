@@ -1,13 +1,26 @@
 package com.easychat.controller;
+import com.easychat.annotation.GlobalInterceptor;
+import com.easychat.constants.Constants;
+import com.easychat.entity.dto.TokenUserInfoDto;
+import com.easychat.entity.vo.UserInfoVo;
 import com.easychat.service.UserInfoService;
 import com.easychat.entity.po.UserInfo;
 import com.easychat.entity.query.UserInfoQuery;
 import com.easychat.entity.vo.ResponseVo;
+
+import java.io.IOException;
 import java.util.List;
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
+import com.easychat.utils.CopyTools;
+import com.easychat.utils.StringTools;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *@Description: Service
@@ -18,66 +31,51 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class UserInfoController extends ABaseController {
 	@Resource
 	private UserInfoService userInfoService;
-	/**
-	 * 根据条件分页查询
-	 */
-	@RequestMapping("/loadDataList")
-	public ResponseVo loadDataList(UserInfoQuery query){
-		return getSuccessResponseVo(userInfoService.findListByPage(query));
+
+
+	@RequestMapping("/getUserInfo")
+	@GlobalInterceptor
+	public ResponseVo getUserInfo(HttpServletRequest request){
+		TokenUserInfoDto tokenUserInfoDto = getTokenUserInfo(request);
+		UserInfo userInfo = userInfoService.getUserInfoByUserId(tokenUserInfoDto.getUserId());
+		UserInfoVo userInfoVo = CopyTools.copy(userInfo, UserInfoVo.class);
+		userInfoVo.setAdmin(tokenUserInfoDto.getAdmin());
+		return getSuccessResponseVo(userInfoVo);
 	}
 
-	/**
-	 * 新增
-	 */
-	@RequestMapping("/add")
-	public ResponseVo add(UserInfo bean){
-		userInfoService.add(bean);
+	@RequestMapping("/saveUserInfo")
+	@GlobalInterceptor
+	public ResponseVo saveUserInfo(HttpServletRequest request, UserInfo userInfo, MultipartFile avatarFile, MultipartFile avatarCover) throws IOException {
+		TokenUserInfoDto tokenUserInfoDto = getTokenUserInfo(request);
+		userInfo.setUserId(tokenUserInfoDto.getUserId());
+		userInfo.setPassword(null);
+		userInfo.setStatus(null);
+		userInfo.setCreateTime(null);
+		this.userInfoService.updateUserInfo(userInfo,avatarFile,avatarCover);
+
+		return getUserInfo(request);
+	}
+
+	@RequestMapping("/updatePassword")
+	@GlobalInterceptor
+	public ResponseVo updatePassword(HttpServletRequest request,
+									 @NotNull @Pattern(regexp = Constants.REGEX_PASSWORD) String password) {
+		TokenUserInfoDto tokenUserInfoDto = getTokenUserInfo(request);
+		UserInfo userInfo = new UserInfo();
+		userInfo.setPassword(StringTools.encodeMd5(password));
+		this.userInfoService.updateUserInfoByUserId(userInfo,tokenUserInfoDto.getUserId());
+
+		// TODO 强制退出 重新登录
 		return getSuccessResponseVo(null);
 	}
 
-	/**
-	 * 批量新增
-	 */
-	@RequestMapping("/addBatch")
-	public ResponseVo addBatch(@RequestBody List<UserInfo> listBean){
-		userInfoService.addBatch(listBean);
+	@RequestMapping("/logout")
+	@GlobalInterceptor
+	public ResponseVo logout(HttpServletRequest request) {
+		TokenUserInfoDto tokenUserInfoDto = getTokenUserInfo(request);
+
+		// TODO 退出登录 关闭ws连接
+		
 		return getSuccessResponseVo(null);
 	}
-
-	/**
-	 * 批量新增/修改
-	 */
-	@RequestMapping("/addOrUpdateBatch")
-	public ResponseVo addOrUpdateBatch(@RequestBody List<UserInfo> listBean){
-		userInfoService.addOrUpdateBatch(listBean);
-		return getSuccessResponseVo(null);
-	}
-
-
-	/**
-	 * 根据UserId查询
-	 */
-	@RequestMapping("getUserInfoByUserId")
-	public ResponseVo getUserInfoByUserId(String userId){
-		return getSuccessResponseVo(userInfoService.getUserInfoByUserId(userId));
-	}
-
-
-	/**
-	 * 根据UserId更新
-	 */
-	@RequestMapping("updateUserInfoByUserId")
-	public ResponseVo updateUserInfoByUserId(UserInfo bean, String userId){
-		return getSuccessResponseVo(userInfoService.updateUserInfoByUserId(bean,userId));
-	}
-
-
-	/**
-	 * 根据UserId删除
-	 */
-	@RequestMapping("deleteUserInfoByUserId")
-	public ResponseVo deleteUserInfoByUserId(String userId){
-		return getSuccessResponseVo(userInfoService.deleteUserInfoByUserId(userId));
-	}
-
 }

@@ -2,12 +2,15 @@ package com.easychat.service;
 import com.easychat.entity.dto.TokenUserInfoDto;
 import com.easychat.entity.po.UserInfo;
 import com.easychat.entity.query.UserInfoQuery;
+
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
 import com.easychat.entity.vo.PaginationResultVo;
 import com.easychat.entity.vo.UserInfoVo;
 import com.easychat.exception.BusinessException;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *@Description: Service
@@ -57,4 +60,6 @@ public interface UserInfoService {
 	void register(String email, String nickname, String password) throws BusinessException;
 
 	UserInfoVo login(String email, String password) throws BusinessException;
+
+	void updateUserInfo(UserInfo userInfo, MultipartFile avatarFile,MultipartFile avatarCover) throws IOException;
 }

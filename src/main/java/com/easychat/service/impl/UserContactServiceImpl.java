@@ -245,6 +245,7 @@ public class UserContactServiceImpl implements UserContactService {
 	}
 
 	@Override
+	@Transactional(rollbackFor = Exception.class)
 	public void removeUserContact(String userId, String contactId, UserContactStatueEnum statueEnum) {
 		UserContact userContact = new UserContact();
 		userContact.setStatus(statueEnum.getStatus());
