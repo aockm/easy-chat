@@ -47,8 +47,7 @@ public class UserContactServiceImpl implements UserContactService {
 
 	@Resource
 	private UserContactApplyMapper<UserContactApply, UserContactApplyQuery> userContactApplyMapper;
-    @Autowired
-    private UserContactApplyServiceImpl userContactApplyService;
+
 
 	@Resource
 	private RedisComponent redisComponent;

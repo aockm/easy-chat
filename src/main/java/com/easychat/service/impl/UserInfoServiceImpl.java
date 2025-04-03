@@ -34,7 +34,8 @@ import org.springframework.web.multipart.MultipartFile;
 public class UserInfoServiceImpl implements UserInfoService {
 	@Resource
 	private UserInfoMapper<UserInfo,UserInfoQuery> userInfoMapper;
-    @Autowired
+
+    @Resource
     private AppConfig appConfig;
 
 	@Resource

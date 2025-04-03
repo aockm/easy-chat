@@ -38,6 +38,8 @@ public interface AppUpdateMapper<T,P> extends BaseMapper {
 	 */
 	Integer deleteByVersion(@Param("version") String version);
 
+	Integer updateByParam(@Param("bean") T t);
+
 	T selectLatestUpdate(@Param("version")String version,@Param("uid")String uid);
 
 }

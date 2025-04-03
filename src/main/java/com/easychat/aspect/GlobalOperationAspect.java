@@ -6,7 +6,6 @@ import com.easychat.entity.dto.TokenUserInfoDto;
 import com.easychat.enums.ResponseCodeEnum;
 import com.easychat.exception.BusinessException;
 import com.easychat.redis.RedisUtils;
-import javafx.scene.paint.Stop;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
