@@ -224,4 +224,10 @@ public class AppUpdateServiceImpl implements AppUpdateService {
 		appUpdate.setGrayscaleUid(grayscaleUid);
 		appUpdateMapper.updateById(appUpdate,id);
 	}
+
+	@Override
+	public AppUpdate getLatestUpdate(String version, String uid) {
+
+		return appUpdateMapper.selectLatestUpdate(version, uid);
+	}
 }

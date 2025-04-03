@@ -344,9 +344,16 @@
 
 	<!-- 根据Version删除 -->
 	<delete id="deleteByVersion">
+		select <include refid="base_column_list"/>
+		from app_update
+		where version > #{version}
+	</delete>
+
+	<select id="selectLatestUpdate" resultMap="base_result_map">
 		delete from app_update
 		where version=#{version}
-	</delete>
+		and (ststus = 2 or (status=1 and FIND_IN_SET(#{uid},grayscale_uid))) order by id desc limit 0,1
+	</select>
 
 </mapper>
 

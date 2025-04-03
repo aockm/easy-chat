@@ -19,6 +19,7 @@ public class Constants {
     public static final String REGEX_PASSWORD = "^(?=.*\\d)(?=.*[a-zA-Z])[\\da-zA-z~!@#$%^&*_]{8,18}$";
     public static final String APP_UPDATE_FOLDER = "app/";
     public static final String APP_TYPE_SUFFIX = ".exe";
+    public static final String APP_NAME = "EasyChatSetup";
 
     public static final String ROBOT_UID = UserContactTypeEnum.USER.getPrefix()+"robot";
 }
