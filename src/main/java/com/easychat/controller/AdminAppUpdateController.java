@@ -59,7 +59,7 @@ public class AdminAppUpdateController extends ABaseController {
 
 	@RequestMapping("/delUpdate")
 	@GlobalInterceptor(checkAdmin = true)
-	public ResponseVo delUpdate(@NotNull Integer id) {
+	public ResponseVo delUpdate(@NotNull Integer id) throws BusinessException {
 
 		appUpdateService.deleteAppUpdateById(id);
 		return getSuccessResponseVo(null);
