@@ -51,7 +51,7 @@ public interface AppUpdateService {
 	/**
 	 * 根据Id删除
 	 */
-	Integer deleteAppUpdateById(Integer id);
+	Integer deleteAppUpdateById(Integer id) throws BusinessException;
 
 	/**
 	 * 根据Version查询
@@ -69,4 +69,6 @@ public interface AppUpdateService {
 	Integer deleteAppUpdateByVersion(String version);
 
 	void saveUpdate(AppUpdate appUpdate, MultipartFile file) throws BusinessException, IOException;
+
+	void postUpdate(Integer id, Integer status, String grayscaleUid) throws BusinessException;
 }

@@ -1,5 +1,7 @@
 package com.easychat.controller;
 import com.easychat.annotation.GlobalInterceptor;
+import com.easychat.enums.AppUpdateStatusEnum;
+import com.easychat.enums.ResponseCodeEnum;
 import com.easychat.exception.BusinessException;
 import com.easychat.service.AppUpdateService;
 import com.easychat.entity.po.AppUpdate;
@@ -66,8 +68,8 @@ public class AdminAppUpdateController extends ABaseController {
 
 	@RequestMapping("/postUpdate")
 	@GlobalInterceptor(checkAdmin = true)
-	public ResponseVo postUpdate(){
-
+	public ResponseVo postUpdate(@NotNull Integer id,@NotNull Integer status,String grayscaleUid) throws BusinessException {
+		appUpdateService.postUpdate(id, status, grayscaleUid);
 		return getSuccessResponseVo(null);
 	}
 

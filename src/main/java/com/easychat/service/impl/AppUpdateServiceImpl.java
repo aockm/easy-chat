@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.Resource;;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -117,7 +118,11 @@ public class AppUpdateServiceImpl implements AppUpdateService {
 	 * 根据Id删除
 	 */
 	@Override
-	public Integer deleteAppUpdateById(Integer id){
+	public Integer deleteAppUpdateById(Integer id) throws BusinessException {
+		AppUpdate dbInfo = this.getAppUpdateById(id);
+		if(!AppUpdateStatusEnum.INIT.getStatus().equals(dbInfo.getStatus())){
+			throw new BusinessException(ResponseCodeEnum.CODE_600);
+		}
 		return this.appUpdateMapper.deleteById(id);
 	}
 
@@ -154,7 +159,12 @@ public class AppUpdateServiceImpl implements AppUpdateService {
 		if(fileTypeEnum==null){
 			throw new BusinessException(ResponseCodeEnum.CODE_600);
 		}
-
+		if (appUpdate.getId()!=null){
+			AppUpdate dbInfo = this.getAppUpdateById(appUpdate.getId());
+			if(!AppUpdateStatusEnum.INIT.getStatus().equals(dbInfo.getStatus())){
+				throw new BusinessException(ResponseCodeEnum.CODE_600);
+			}
+		}
 		AppUpdateQuery appUpdateQuery = new AppUpdateQuery();
 		appUpdateQuery.setOrderBy("id desc");
 		appUpdateQuery.setSimplePage(new SimplePage(0,1));
@@ -175,6 +185,7 @@ public class AppUpdateServiceImpl implements AppUpdateService {
 			}
 		}
 
+
 		if(appUpdate.getId()==null){
 			appUpdate.setCreatTime(new Date());
 			appUpdate.setStatus(AppUpdateStatusEnum.INIT.getStatus());
@@ -194,4 +205,23 @@ public class AppUpdateServiceImpl implements AppUpdateService {
 
 	}
 
+	@Override
+	public void postUpdate(Integer id, Integer status, String grayscaleUid) throws BusinessException {
+		AppUpdateStatusEnum statusEnum = AppUpdateStatusEnum.getByStatus(status);
+
+		if(statusEnum==null){
+			throw new BusinessException(ResponseCodeEnum.CODE_600);
+		}
+		if (AppUpdateStatusEnum.GRAYSCALE == statusEnum && StringUtils.isEmpty(grayscaleUid)) {
+			throw new BusinessException(ResponseCodeEnum.CODE_600);
+		}
+		if (AppUpdateStatusEnum.GRAYSCALE != statusEnum) {
+			grayscaleUid = "";
+		}
+
+		AppUpdate appUpdate = new AppUpdate();
+		appUpdate.setStatus(status);
+		appUpdate.setGrayscaleUid(grayscaleUid);
+		appUpdateMapper.updateById(appUpdate,id);
+	}
 }
