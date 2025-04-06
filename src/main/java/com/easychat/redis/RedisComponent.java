@@ -17,6 +17,10 @@ public class RedisComponent {
     public Long getUserHeartBeat(String userId) {
         return (Long) redisUtils.get(Constants.REDIS_KEY_WS_USER_HEART_BEAT+userId);
     }
+    //
+    public void saveUserHeartBeat(String userId) {
+        redisUtils.setex(Constants.REDIS_KEY_WS_USER_HEART_BEAT+userId,System.currentTimeMillis(),6);
+    }
 
     public void saveTokenUserInfoDto(TokenUserInfoDto tokenUserInfoDto) {
         redisUtils.setex(Constants.REDIS_KEY_WS_TOKEN+tokenUserInfoDto.getToken(), tokenUserInfoDto,60*60*24*2);
