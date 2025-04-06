@@ -1,6 +1,5 @@
 package com.easychat.utils;
 
-import jodd.bean.BeanUtil;
 import org.springframework.beans.BeanUtils;
 
 import java.util.ArrayList;

@@ -161,7 +161,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 		}
 		TokenUserInfoDto tokenUserInfoDto = getTokenUserInfoDto(userInfo);
 		Long userHeartBeat = redisComponent.getUserHeartBeat(userInfo.getUserId());
-		if(userHeartBeat==null){
+		if(userHeartBeat != null){
 			throw new BusinessException("此账号已在别处登录，请退出后再登录");
 		}
 		// 保存登录信息到redis中

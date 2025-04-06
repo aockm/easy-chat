@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.io.File;
-import java.lang.reflect.Array;
 import java.util.Arrays;
 
 @RestController

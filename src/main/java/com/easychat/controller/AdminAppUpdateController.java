@@ -1,23 +1,19 @@
 package com.easychat.controller;
+
 import com.easychat.annotation.GlobalInterceptor;
-import com.easychat.enums.AppUpdateStatusEnum;
-import com.easychat.enums.ResponseCodeEnum;
-import com.easychat.exception.BusinessException;
-import com.easychat.service.AppUpdateService;
 import com.easychat.entity.po.AppUpdate;
 import com.easychat.entity.query.AppUpdateQuery;
 import com.easychat.entity.vo.ResponseVo;
+import com.easychat.exception.BusinessException;
+import com.easychat.service.AppUpdateService;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.util.List;
 import javax.annotation.Resource;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.multipart.MultipartFile;
+import java.io.IOException;
 
 /**
  *@Description: app发布Service

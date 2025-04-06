@@ -55,11 +55,11 @@ public class AccountController extends ABaseController {
                                @NotEmpty String nickName,
                                @NotEmpty String checkCode) throws BusinessException {
         try {
-            if (checkCode.equalsIgnoreCase((String) redisUtils.get(Constants.REDIS_KEY_CHECK_CODE+checkCodeKey))) {
+            if (!checkCode.equalsIgnoreCase((String) redisUtils.get(Constants.REDIS_KEY_CHECK_CODE+checkCodeKey))) {
                 throw new BusinessException("验证码不正确");
             }
-            userInfoService.register(email, password, nickName);
-            return getSuccessResponseVo(null);
+            userInfoService.register(email, nickName, password);
+            return getSuccessResponseVo("注册成功");
         }finally {
             redisUtils.delete(Constants.REDIS_KEY_CHECK_CODE+checkCodeKey);
         }
@@ -71,11 +71,9 @@ public class AccountController extends ABaseController {
                             @NotEmpty String password,
                             @NotEmpty String checkCode) throws BusinessException {
         try {
-            if (checkCode.equalsIgnoreCase((String) redisUtils.get(Constants.REDIS_KEY_CHECK_CODE+checkCodeKey))) {
+            if (!checkCode.equalsIgnoreCase((String) redisUtils.get(Constants.REDIS_KEY_CHECK_CODE+checkCodeKey))) {
                 throw new BusinessException("验证码不正确");
             }
-
-
 
             UserInfoVo userInfoVo = userInfoService.login(email, password);
 

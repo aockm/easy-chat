@@ -1,20 +1,15 @@
 package com.easychat.controller;
 
 import com.easychat.annotation.GlobalInterceptor;
-import com.easychat.entity.dto.TokenUserInfoDto;
-import com.easychat.entity.po.UserInfo;
 import com.easychat.entity.query.UserInfoQuery;
 import com.easychat.entity.vo.PaginationResultVo;
 import com.easychat.entity.vo.ResponseVo;
-import com.easychat.entity.vo.UserInfoVo;
 import com.easychat.exception.BusinessException;
 import com.easychat.service.UserInfoService;
-import com.easychat.utils.CopyTools;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
 
 @RestController

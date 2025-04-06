@@ -16,7 +16,7 @@ public class AppConfig {
     @Value("${admin.emails:}")
     private String  adminEmails;
 
-    public Integer getPort() {
+    public Integer getWsPort() {
         return port;
     }
 

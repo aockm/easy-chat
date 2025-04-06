@@ -20,7 +20,12 @@ public class RedisComponent {
 
     public void saveTokenUserInfoDto(TokenUserInfoDto tokenUserInfoDto) {
         redisUtils.setex(Constants.REDIS_KEY_WS_TOKEN+tokenUserInfoDto.getToken(), tokenUserInfoDto,60*60*24*2);
-        redisUtils.setex(Constants.REDIS_KEY_WS_TOKEN_USERID+tokenUserInfoDto.getToken(), tokenUserInfoDto.getToken(),60*60*24*2);
+        redisUtils.setex(Constants.REDIS_KEY_WS_TOKEN_USERID+tokenUserInfoDto.getUserId(), tokenUserInfoDto.getToken(),60*60*24*2);
+    }
+
+    public TokenUserInfoDto getTokenUserInfoDto(String token) {
+        TokenUserInfoDto tokenUserInfoDto = (TokenUserInfoDto) redisUtils.get(Constants.REDIS_KEY_WS_TOKEN+token);
+        return tokenUserInfoDto;
     }
 
     public SysSettingDto getSysSetting() {

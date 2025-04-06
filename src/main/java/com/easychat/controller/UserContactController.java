@@ -1,10 +1,14 @@
 package com.easychat.controller;
+
 import com.easychat.annotation.GlobalInterceptor;
 import com.easychat.entity.dto.TokenUserInfoDto;
 import com.easychat.entity.dto.UserContactSearchResultDto;
+import com.easychat.entity.po.UserContact;
 import com.easychat.entity.po.UserInfo;
 import com.easychat.entity.query.UserContactApplyQuery;
+import com.easychat.entity.query.UserContactQuery;
 import com.easychat.entity.vo.PaginationResultVo;
+import com.easychat.entity.vo.ResponseVo;
 import com.easychat.entity.vo.UserInfoVo;
 import com.easychat.enums.PageSize;
 import com.easychat.enums.ResponseCodeEnum;
@@ -13,21 +17,17 @@ import com.easychat.enums.UserContactTypeEnum;
 import com.easychat.exception.BusinessException;
 import com.easychat.service.UserContactApplyService;
 import com.easychat.service.UserContactService;
-import com.easychat.entity.po.UserContact;
-import com.easychat.entity.query.UserContactQuery;
-import com.easychat.entity.vo.ResponseVo;
-import java.util.List;
+import com.easychat.service.UserInfoService;
+import com.easychat.utils.CopyTools;
+import org.apache.commons.lang3.ArrayUtils;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-
-import com.easychat.service.UserInfoService;
-import com.easychat.utils.CopyTools;
-import org.apache.commons.lang3.ArrayUtils;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestMapping;
+import java.util.List;
 
 /**
  *@Description: 联系人Service

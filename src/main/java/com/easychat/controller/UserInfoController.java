@@ -1,26 +1,23 @@
 package com.easychat.controller;
+
 import com.easychat.annotation.GlobalInterceptor;
 import com.easychat.constants.Constants;
 import com.easychat.entity.dto.TokenUserInfoDto;
+import com.easychat.entity.po.UserInfo;
+import com.easychat.entity.vo.ResponseVo;
 import com.easychat.entity.vo.UserInfoVo;
 import com.easychat.service.UserInfoService;
-import com.easychat.entity.po.UserInfo;
-import com.easychat.entity.query.UserInfoQuery;
-import com.easychat.entity.vo.ResponseVo;
+import com.easychat.utils.CopyTools;
+import com.easychat.utils.StringTools;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-
-import com.easychat.utils.CopyTools;
-import com.easychat.utils.StringTools;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.multipart.MultipartFile;
+import java.io.IOException;
 
 /**
  *@Description: Service
