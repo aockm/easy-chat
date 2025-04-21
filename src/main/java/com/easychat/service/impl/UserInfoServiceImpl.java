@@ -2,9 +2,11 @@ package com.easychat.service.impl;
 import com.easychat.constants.Constants;
 import com.easychat.entity.config.AppConfig;
 import com.easychat.entity.dto.TokenUserInfoDto;
+import com.easychat.entity.po.UserContact;
 import com.easychat.entity.vo.UserInfoVo;
 import com.easychat.enums.*;
 import com.easychat.exception.BusinessException;
+import com.easychat.mappers.UserContactMapper;
 import com.easychat.redis.RedisComponent;
 import com.easychat.service.UserInfoService;
 import com.easychat.entity.po.UserInfo;
@@ -16,6 +18,7 @@ import com.easychat.entity.vo.PaginationResultVo;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 import javax.annotation.Resource;;
 import com.easychat.utils.CopyTools;
 import com.easychat.utils.StringTools;
@@ -40,6 +43,9 @@ public class UserInfoServiceImpl implements UserInfoService {
 
 	@Resource
 	private RedisComponent redisComponent;
+    @Autowired
+    private UserContactMapper userContactMapper;
+
 	/**
 	 * 根据条件查询列表
 	 */
@@ -159,6 +165,17 @@ public class UserInfoServiceImpl implements UserInfoService {
 		if (UserStatusEnum.DISABLE.getStatus().equals(userInfo.getStatus())) {
 			throw new BusinessException("账号已禁用");
 		}
+		// 查询联系人
+		UserInfoQuery contactQuery = new UserInfoQuery();
+		contactQuery.setUserId(userInfo.getUserId());
+		contactQuery.setStatus(UserContactStatueEnum.FRIEND.getStatus());
+		List<UserContact> contactList = userContactMapper.selectList(contactQuery);
+		List<String> contactIdList = contactList.stream().map(item -> item.getContactId()).collect(Collectors.toList());
+		redisComponent.clearUserContact(userInfo.getUserId());
+		if (!contactIdList.isEmpty()) {
+			redisComponent.addUserContactBatch(userInfo.getUserId(), contactIdList);
+		}
+
 		TokenUserInfoDto tokenUserInfoDto = getTokenUserInfoDto(userInfo);
 		Long userHeartBeat = redisComponent.getUserHeartBeat(userInfo.getUserId());
 		if(userHeartBeat != null){
