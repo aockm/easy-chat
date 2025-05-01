@@ -1,11 +1,13 @@
 package com.easychat.websorcket;
 
+import com.easychat.entity.dto.MessageSendDto;
 import com.easychat.entity.dto.WsInitData;
 import com.easychat.entity.po.ChatSessionUser;
 import com.easychat.entity.po.UserInfo;
 import com.easychat.entity.query.ChatSessionQuery;
 import com.easychat.entity.query.ChatSessionUserQuery;
 import com.easychat.entity.query.UserInfoQuery;
+import com.easychat.enums.MessageTypeEnum;
 import com.easychat.enums.UserContactTypeEnum;
 import com.easychat.mappers.UserInfoMapper;
 import com.easychat.redis.RedisComponent;
@@ -83,10 +85,28 @@ public class ChannelContextUtils {
         // 2.查询聊天信息
 
         // 3.查询好友申请
+
+        // 发送消息
+        MessageSendDto messageSendDto = new MessageSendDto();
+        messageSendDto.setMessageType(MessageTypeEnum.INIT.getType());
+        messageSendDto.setContactId(userId);
+        messageSendDto.setExtendData(wsInitData);
+        sendMsg(messageSendDto,userId);
     }
 
     // 发送消息
-    public static void sendMsg(Channel channel, String msg){}
+    public static void sendMsg(MessageSendDto messageSendDto,String receiveId){
+        if (receiveId == null) {
+            return;
+        }
+        Channel sendChannel = USER_CONTEXT_MAP.get(receiveId);
+        if (sendChannel == null) {
+            return;
+        }
+        messageSendDto.setContactId(messageSendDto.getContactId());
+        messageSendDto.setContactName(messageSendDto.getSendUserNickName());
+        sendChannel.writeAndFlush(messageSendDto);
+    }
 
 
     private void add2Group(String groupId, Channel channel){

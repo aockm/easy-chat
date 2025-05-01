@@ -28,6 +28,35 @@ public class ChatSessionUser implements Serializable {
 	 */
 	private String contactName;
 
+	private String lastMessage;
+
+	private String lastReceiveTime;
+
+	private Integer memberCount;
+
+	public Integer getMemberCount() {
+		return memberCount;
+	}
+
+	public void setMemberCount(Integer memberCount) {
+		this.memberCount = memberCount;
+	}
+
+	public String getLastMessage() {
+		return lastMessage;
+	}
+
+	public void setLastMessage(String lastMessage) {
+		this.lastMessage = lastMessage;
+	}
+
+	public String getLastReceiveTime() {
+		return lastReceiveTime;
+	}
+
+	public void setLastReceiveTime(String lastReceiveTime) {
+		this.lastReceiveTime = lastReceiveTime;
+	}
 
 	public void setUserId(String userId){
 		this.userId = userId;
