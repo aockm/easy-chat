@@ -25,6 +25,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -84,8 +85,9 @@ public class ChannelContextUtils {
         WsInitData wsInitData = new WsInitData();
         wsInitData.setChatSessionUserList(chatSessionUserList);
         // 2.查询聊天信息
-
+        wsInitData.setChatMessageList(new ArrayList<>());
         // 3.查询好友申请
+        wsInitData.setApplyCount(0);
 
         // 发送消息
         MessageSendDto messageSendDto = new MessageSendDto();
