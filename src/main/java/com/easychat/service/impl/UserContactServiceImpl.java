@@ -3,19 +3,13 @@ import com.easychat.constants.Constants;
 import com.easychat.entity.dto.SysSettingDto;
 import com.easychat.entity.dto.TokenUserInfoDto;
 import com.easychat.entity.dto.UserContactSearchResultDto;
-import com.easychat.entity.po.GroupInfo;
-import com.easychat.entity.po.UserContactApply;
-import com.easychat.entity.po.UserInfo;
+import com.easychat.entity.po.*;
 import com.easychat.entity.query.*;
 import com.easychat.enums.*;
 import com.easychat.exception.BusinessException;
-import com.easychat.mappers.GroupInfoMapper;
-import com.easychat.mappers.UserContactApplyMapper;
-import com.easychat.mappers.UserInfoMapper;
+import com.easychat.mappers.*;
 import com.easychat.redis.RedisComponent;
 import com.easychat.service.UserContactService;
-import com.easychat.entity.po.UserContact;
-import com.easychat.mappers.UserContactMapper;
 import com.easychat.entity.vo.PaginationResultVo;
 
 import java.util.ArrayList;
@@ -51,6 +45,15 @@ public class UserContactServiceImpl implements UserContactService {
 
 	@Resource
 	private RedisComponent redisComponent;
+
+	@Resource
+	private ChatSessionMapper<ChatSession, ChatSessionQuery> chatSessionMapper;
+
+	@Resource
+	private ChatSessionUserMapper<ChatSessionUser, ChatSessionUserQuery> chatSessionUserMapper;
+
+	@Resource
+	private ChatMessageMapper<ChatMessage, ChatMessageQuery> chatMessageMapper;
 
 	/**
 	 * 根据条件查询列表
@@ -262,6 +265,8 @@ public class UserContactServiceImpl implements UserContactService {
 		// TODO 从好友列表缓存中删除我
 	}
 
+
+
 	@Override
 	public void addContact(String applyUserId, String receiveUserId, String contactId, Integer contactType, String applyInfo) throws BusinessException {
 		// 群聊人数
@@ -308,9 +313,55 @@ public class UserContactServiceImpl implements UserContactService {
 		// TODO 创建会话
 
 
+	}
 
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public void addContact4Robot(String userId) {
+		Date curDate = new Date();
+		SysSettingDto sysSettingDto = redisComponent.getSysSetting();
+		String contactId = sysSettingDto.getRobotUid();
+		String contactName = sysSettingDto.getRobotNickName();
+		String sendMessage = sysSettingDto.getRobotWelcome();
+		sendMessage = StringTools.cleanHtmlTag(sendMessage);
+		// 增加机器人好友
+		UserContact userContact = new UserContact();
+		userContact.setUserId(userId);
+		userContact.setContactId(contactId);
+		userContact.setContactName(contactName);
+		userContact.setContactType(UserContactTypeEnum.USER.getType());
+		userContact.setCreatTime(curDate);
+		userContact.setLastUpdateTime(curDate);
+		userContact.setStatus(UserContactStatueEnum.FRIEND.getStatus());
+		userContactMapper.insert(userContact);
+		// 增加会话信息
+        String sessionId = StringTools.getChatSessionId4User(new String[]{contactId, userId});
+		ChatSession chatSession = new ChatSession();
+		chatSession.setLastMessage(sendMessage);
+		chatSession.setSessionId(sessionId);
+		chatSession.setLastReceiveTime(curDate.getTime());
+		this.chatSessionMapper.insert(chatSession);
 
+		// 增加会话人信息
+		ChatSessionUser chatSessionUser = new ChatSessionUser();
+		chatSessionUser.setUserId(userId);
+		chatSessionUser.setSessionId(sessionId);
+		chatSessionUser.setContactId(contactId);
+		chatSessionUser.setContactName(contactName);
+		this.chatSessionUserMapper.insert(chatSessionUser);
 
+		// 增加聊天消息
+		ChatMessage chatMessage = new ChatMessage();
+		chatMessage.setSessionId(sessionId);
+		chatMessage.setMessageType(MessageTypeEnum.CHAT.getType());
+		chatMessage.setMessageContent(sendMessage);
+		chatMessage.setSendUserId(contactId);
+		chatMessage.setSendUserNickName(contactName);
+		chatMessage.setSendTime(curDate.getTime());
+		chatMessage.setContactId(userId);
+		chatMessage.setContactType(UserContactTypeEnum.USER.getType());
+		chatMessage.setStatus(MessageStatusEnum.SENT.getStatus());
+		chatMessageMapper.insert(chatMessage);
 
 	}
 }

@@ -13,6 +13,7 @@ import com.easychat.mappers.UserInfoMapper;
 import com.easychat.redis.RedisComponent;
 import com.easychat.service.ChatSessionService;
 import com.easychat.service.ChatSessionUserService;
+import com.easychat.utils.JsonUtils;
 import io.netty.channel.Channel;
 import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
@@ -103,9 +104,10 @@ public class ChannelContextUtils {
         if (sendChannel == null) {
             return;
         }
+        // 相对于客户端而言，联系人就是发送人，这里转发一下再发送
         messageSendDto.setContactId(messageSendDto.getContactId());
         messageSendDto.setContactName(messageSendDto.getSendUserNickName());
-        sendChannel.writeAndFlush(messageSendDto);
+        sendChannel.writeAndFlush(new TextWebSocketFrame(JsonUtils.convertObj2Json(messageSendDto)));
     }
 
 

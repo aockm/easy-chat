@@ -61,4 +61,6 @@ public interface UserContactService {
 
 	void removeUserContact(String userId, String contactId, UserContactStatueEnum statueEnum);
 
+	void addContact4Robot(String userId);
+
 }

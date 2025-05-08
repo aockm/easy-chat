@@ -8,6 +8,7 @@ import com.easychat.enums.*;
 import com.easychat.exception.BusinessException;
 import com.easychat.mappers.UserContactMapper;
 import com.easychat.redis.RedisComponent;
+import com.easychat.service.UserContactService;
 import com.easychat.service.UserInfoService;
 import com.easychat.entity.po.UserInfo;
 import com.easychat.entity.query.UserInfoQuery;
@@ -43,8 +44,12 @@ public class UserInfoServiceImpl implements UserInfoService {
 
 	@Resource
 	private RedisComponent redisComponent;
-    @Autowired
+
+    @Resource
     private UserContactMapper userContactMapper;
+
+	@Resource
+	private UserContactService userContactService;
 
 	/**
 	 * 根据条件查询列表
@@ -142,16 +147,19 @@ public class UserInfoServiceImpl implements UserInfoService {
 			throw new BusinessException("邮箱账号已存在");
 		}
 
-			String userId = StringTools.getUserId();
-			userInfo = new UserInfo();
-			userInfo.setUserId(userId);
-			userInfo.setEmail(email);
-			userInfo.setNickName(nickname);
-			userInfo.setPassword(StringTools.encodeMd5(password));
-			userInfo.setCreateTime(new Date());
-			userInfo.setJoinType(JoinTypeEnum.APPLY.getType());
-			userInfo.setStatus(UserStatusEnum.ENABLE.getStatus());
-			this.userInfoMapper.insert(userInfo);
+		String userId = StringTools.getUserId();
+		userInfo = new UserInfo();
+		userInfo.setUserId(userId);
+		userInfo.setEmail(email);
+		userInfo.setNickName(nickname);
+		userInfo.setPassword(StringTools.encodeMd5(password));
+		userInfo.setCreateTime(new Date());
+		userInfo.setJoinType(JoinTypeEnum.APPLY.getType());
+		userInfo.setStatus(UserStatusEnum.ENABLE.getStatus());
+		this.userInfoMapper.insert(userInfo);
+
+		// 创建机器人好友
+		userContactService.addContact4Robot(userId);
 
 	}
 
