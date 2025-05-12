@@ -160,7 +160,7 @@ public class GroupInfoServiceImpl implements GroupInfoService {
 			userContact.setContactType(UserContactTypeEnum.GROUP.getType());
 			userContact.setContactId(groupInfo.getGroupId());
 			userContact.setUserId(groupInfo.getGroupId());
-			userContact.setCreatTime(currentDate);
+			userContact.setCreateTime(currentDate);
 			this.userContactMapper.insert(userContact);
 			// 创建会话
 			// 发送消息

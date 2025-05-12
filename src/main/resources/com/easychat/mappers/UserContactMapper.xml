@@ -10,7 +10,7 @@
 		<!--联系人类型 0:好友 1:群组-->
 		<result column="contact_type" property="contactType"/>
 		<!--创建时间-->
-		<result column="creat_time" property="creatTime"/>
+		<result column="create_time" property="createTime"/>
 		<!--状态 0:非好友 1:好友 2:已删除 3:拉黑-->
 		<result column="status" property="status"/>
 		<!--最后更新时间-->
@@ -33,7 +33,7 @@
 		<if test="query.contactType!=null">
 			and contact_type = #{query.contactType}
 		</if>
-		<if test="query.creatTime!=null">
+		<if test="query.createTime!=null">
 			and creat_time = #{query.creatTime}
 		</if>
 		<if test="query.status!=null">

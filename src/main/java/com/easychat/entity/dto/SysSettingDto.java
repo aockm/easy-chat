@@ -12,7 +12,7 @@ public class SysSettingDto implements Serializable {
     private Integer maxImageSize = 2;
     private Integer maxVideoSize = 5;
     private Integer maxFileSize = 5;
-    private String robotUid = Constants.REDIS_KEY_CHECK_CODE;
+    private String robotUid = Constants.ROBOT_UID;
     private String robotNickName = "EasyChat";
     private String robotWelcome = "欢迎使用EasyChat";
 

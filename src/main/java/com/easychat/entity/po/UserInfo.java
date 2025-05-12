@@ -11,8 +11,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 /**
- *@Description: 
- *@date: 2025/03/28
+ *@Description:
+ *@date: 2025/05/12
  */
 public class UserInfo implements Serializable {
 	private String userId;
@@ -35,6 +35,12 @@ public class UserInfo implements Serializable {
 	@JsonFormat (pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
 	@DateTimeFormat (pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date createTime;
+
+	private String areaName;
+
+	@JsonFormat (pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
+	@DateTimeFormat (pattern = "yyyy-MM-dd HH:mm:ss")
+	private Date lastLoginTime;
 
 
 	public void setUserId(String userId){
@@ -109,8 +115,24 @@ public class UserInfo implements Serializable {
 		return this.createTime;
 	}
 
+	public void setAreaName(String areaName){
+		this.areaName = areaName;
+	}
+
+	public String getAreaName(){
+		return this.areaName;
+	}
+
+	public void setLastLoginTime(Date lastLoginTime){
+		this.lastLoginTime = lastLoginTime;
+	}
+
+	public Date getLastLoginTime(){
+		return this.lastLoginTime;
+	}
+
 	@Override
 	public String toString() {
-		return "userId:"+(userId== null?"空" : userId)+",email:"+(email== null?"空" : email)+",nickName:"+(nickName== null?"空" : nickName)+",joinType:"+(joinType== null?"空" : joinType)+",password:"+(password== null?"空" : password)+",personalSignature:"+(personalSignature== null?"空" : personalSignature)+",sex:"+(sex== null?"空" : sex)+",status:"+(status== null?"空" : status)+",createTime:"+(createTime== null?"空" : DateUtils.format(createTime, DateTimePatternEnum.YYYY_MM_DD_HH_MM_SS.getPattern()));
+		return "userId:"+(userId== null?"空" : userId)+",email:"+(email== null?"空" : email)+",nickName:"+(nickName== null?"空" : nickName)+",joinType:"+(joinType== null?"空" : joinType)+",password:"+(password== null?"空" : password)+",personalSignature:"+(personalSignature== null?"空" : personalSignature)+",sex:"+(sex== null?"空" : sex)+",status:"+(status== null?"空" : status)+",createTime:"+(createTime== null?"空" : DateUtils.format(createTime, DateTimePatternEnum.YYYY_MM_DD_HH_MM_SS.getPattern()))+",areaName:"+(areaName== null?"空" : areaName)+",lastLoginTime:"+(lastLoginTime== null?"空" : DateUtils.format(lastLoginTime, DateTimePatternEnum.YYYY_MM_DD_HH_MM_SS.getPattern()));
 	}
 }

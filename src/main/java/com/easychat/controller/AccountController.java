@@ -11,6 +11,7 @@ import com.easychat.service.UserInfoService;
 import com.wf.captcha.ArithmeticCaptcha;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -35,7 +36,7 @@ public class AccountController extends ABaseController {
     @Resource
     private RedisComponent redisComponent;
 
-    @RequestMapping("/checkCode")
+    @RequestMapping(value = "/checkCode")
     public ResponseVo checkCode() {
         ArithmeticCaptcha captcha = new ArithmeticCaptcha(100, 42);
         String code = captcha.text();
@@ -43,7 +44,7 @@ public class AccountController extends ABaseController {
         String checkCodeBase64 = captcha.toBase64();
         redisUtils.setex(Constants.REDIS_KEY_CHECK_CODE+checkCodeKey,code, 60*10);
         Map<String, String> result = new HashMap<>();
-        result.put("code", checkCodeBase64);
+        result.put("checkCode", checkCodeBase64);
         result.put("checkCodeKey", checkCodeKey);
         return getSuccessResponseVo(result);
     }
@@ -76,8 +77,6 @@ public class AccountController extends ABaseController {
             }
 
             UserInfoVo userInfoVo = userInfoService.login(email, password);
-
-
             return getSuccessResponseVo(userInfoVo);
         }finally {
             redisUtils.delete(Constants.REDIS_KEY_CHECK_CODE+checkCodeKey);

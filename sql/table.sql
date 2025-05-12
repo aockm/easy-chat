@@ -13,7 +13,7 @@ CREATE TABLE `user_contact` (
     `user_id` varchar(12) CHARACTER SET utf8mb4 COLLATE  utf8mb4_general_ci NOT NULL  COMMENT '用户ID',
     `contact_id` varchar(12) CHARACTER SET utf8mb4 COLLATE  utf8mb4_general_ci NOT NULL  COMMENT '联系人ID或群组ID',
     `contact_type` tinyint(1)  NULL DEFAULT NULL  COMMENT '联系人类型 0:好友 1:群组',
-    `creat_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+    `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
     `status` tinyint(1) NULL DEFAULT NULL COMMENT '状态 0:非好友 1:好友 2:已删除好友 3:被好友删除 4:已拉黑好友 5:被好友拉黑',
     `last_update_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '最后更新时间',
     PRIMARY KEY (`user_id`,`contact_id`) USING BTREE,

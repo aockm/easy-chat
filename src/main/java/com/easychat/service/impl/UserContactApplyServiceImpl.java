@@ -186,7 +186,7 @@ public class UserContactApplyServiceImpl implements UserContactApplyService {
 			userContact.setUserId(applyInfo.getApplyUserId());
 			userContact.setContactId(applyInfo.getContactId());
 			userContact.setContactType(applyInfo.getContactType());
-			userContact.setCreatTime(date);
+			userContact.setCreateTime(date);
 			userContact.setStatus(UserContactApplyStatusEnum.BLACKLIST.getStatus());
 			userContact.setLastUpdateTime(date);
 			userContactMapper.insertOrUpdate(userContact);

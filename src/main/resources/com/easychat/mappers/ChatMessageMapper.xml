@@ -125,10 +125,7 @@
 	</select>
 
 	<!--插入（匹配有值字段）-->
-	<insert id="insert" parameterType="com.easychat.entity.po.ChatMessage">
-		<selectKey keyProperty="bean.message_id" resultType="Long" order="AFTER">
-			SELECT LAST_INSERT_ID()
-		</selectKey>
+	<insert id="insert" parameterType="com.easychat.entity.po.ChatMessage" useGeneratedKeys="true" keyProperty="message_id">
 		INSERT INTO chat_message
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="bean.messageId!=null">

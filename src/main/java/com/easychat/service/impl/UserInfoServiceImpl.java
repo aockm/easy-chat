@@ -3,6 +3,7 @@ import com.easychat.constants.Constants;
 import com.easychat.entity.config.AppConfig;
 import com.easychat.entity.dto.TokenUserInfoDto;
 import com.easychat.entity.po.UserContact;
+import com.easychat.entity.query.UserContactQuery;
 import com.easychat.entity.vo.UserInfoVo;
 import com.easychat.enums.*;
 import com.easychat.exception.BusinessException;
@@ -167,28 +168,38 @@ public class UserInfoServiceImpl implements UserInfoService {
 	@Override
 	public UserInfoVo login(String email, String password) throws BusinessException {
 		UserInfo userInfo = this.userInfoMapper.selectByEmail(email);
-		if (null==userInfo || !userInfo.getPassword().equals(StringTools.encodeMd5(password))) {
+
+		if (null==userInfo || !userInfo.getPassword().equals(password)) {
 			throw new BusinessException("账号或密码不存在");
 		}
 		if (UserStatusEnum.DISABLE.getStatus().equals(userInfo.getStatus())) {
 			throw new BusinessException("账号已禁用");
 		}
+
+
 		// 查询联系人
-		UserInfoQuery contactQuery = new UserInfoQuery();
+
+		UserContactQuery contactQuery = new UserContactQuery();
 		contactQuery.setUserId(userInfo.getUserId());
 		contactQuery.setStatus(UserContactStatueEnum.FRIEND.getStatus());
 		List<UserContact> contactList = userContactMapper.selectList(contactQuery);
+
 		List<String> contactIdList = contactList.stream().map(item -> item.getContactId()).collect(Collectors.toList());
 		redisComponent.clearUserContact(userInfo.getUserId());
 		if (!contactIdList.isEmpty()) {
 			redisComponent.addUserContactBatch(userInfo.getUserId(), contactIdList);
 		}
 
+
+
+
 		TokenUserInfoDto tokenUserInfoDto = getTokenUserInfoDto(userInfo);
 		Long userHeartBeat = redisComponent.getUserHeartBeat(userInfo.getUserId());
 		if(userHeartBeat != null){
 			throw new BusinessException("此账号已在别处登录，请退出后再登录");
 		}
+
+
 		// 保存登录信息到redis中
 		String token = StringTools.encodeMd5(userInfo.getPassword() + StringTools.getRandomString(20));
 		tokenUserInfoDto.setToken(token);
@@ -196,7 +207,6 @@ public class UserInfoServiceImpl implements UserInfoService {
 		UserInfoVo userInfoVo = CopyTools.copy(userInfo, UserInfoVo.class);
 		userInfoVo.setAdmin(tokenUserInfoDto.getAdmin());
 		userInfoVo.setToken(token);
-
 		return userInfoVo;
 	}
 

@@ -21,11 +21,16 @@
 		<result column="status" property="status"/>
 		<!---->
 		<result column="create_time" property="createTime"/>
+		<!---->
+		<result column="area_name" property="areaName"/>
+		<!---->
+		<result column="last_login_time" property="lastLoginTime"/>
 	</resultMap>
+
 
 	<!--通用查询结果列-->
 	<sql id="base_column_list" >
-		user_id,email,nick_name,join_type,password,personal_signature,sex,status,create_time
+		user_id,email,nick_name,join_type,password,personal_signature,sex,status,create_time,area_name,last_login_time
 	</sql>
 
 	<!--基础查询条件-->
@@ -56,6 +61,12 @@
 		</if>
 		<if test="query.createTime!=null">
 			and create_time = #{query.createTime}
+		</if>
+		<if test="query.areaName!=null and query.areaName!='' ">
+			and area_name = #{query.areaName}
+		</if>
+		<if test="query.lastLoginTime!=null">
+			and last_login_time = #{query.lastLoginTime}
 		</if>
 	</sql>
 

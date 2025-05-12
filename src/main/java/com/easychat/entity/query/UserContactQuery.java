@@ -30,7 +30,11 @@ public class UserContactQuery extends BaseQuery {
 	/**
 	 * 创建时间
 	 */
-	private Date creatTime;
+	private Date createTime;
+
+	private Date createTimeStart;
+
+	private Date createTimeEnd;
 
 	/**
 	 * 状态 0:非好友 1:好友 2:已删除 3:拉黑
@@ -50,6 +54,22 @@ public class UserContactQuery extends BaseQuery {
 	private Boolean queryContactUserInfo;
 
 	private Boolean excludeMyGroup;
+
+	public Date getCreateTimeStart() {
+		return createTimeStart;
+	}
+
+	public void setCreateTimeStart(Date createTimeStart) {
+		this.createTimeStart = createTimeStart;
+	}
+
+	public Date getCreateTimeEnd() {
+		return createTimeEnd;
+	}
+
+	public void setCreateTimeEnd(Date createTimeEnd) {
+		this.createTimeEnd = createTimeEnd;
+	}
 
 	public Boolean getExcludeMyGroup() {
 		return excludeMyGroup;
@@ -107,12 +127,12 @@ public class UserContactQuery extends BaseQuery {
 		return this.contactType;
 	}
 
-	public void setCreatTime(Date creatTime){
-		this.creatTime = creatTime;
+	public void setCreateTime(Date createTime){
+		this.createTime = createTime;
 	}
 
-	public Date getCreatTime(){
-		return this.creatTime;
+	public Date getCreateTime(){
+		return this.createTime;
 	}
 
 	public void setStatus(Integer status){

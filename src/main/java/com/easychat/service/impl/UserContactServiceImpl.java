@@ -289,7 +289,7 @@ public class UserContactServiceImpl implements UserContactService {
 		userContact.setUserId(applyUserId);
 		userContact.setContactId(contactId);
 		userContact.setContactType(contactType);
-		userContact.setCreatTime(curDate);
+		userContact.setCreateTime(curDate);
 		userContact.setLastUpdateTime(curDate);
 		userContact.setStatus(UserContactStatueEnum.FRIEND.getStatus());
 		contactList.add(userContact);
@@ -299,7 +299,7 @@ public class UserContactServiceImpl implements UserContactService {
 			userContact.setUserId(receiveUserId);
 			userContact.setContactId(applyUserId);
 			userContact.setContactType(contactType);
-			userContact.setCreatTime(curDate);
+			userContact.setCreateTime(curDate);
 			userContact.setLastUpdateTime(curDate);
 			userContact.setStatus(UserContactStatueEnum.FRIEND.getStatus());
 			contactList.add(userContact);
@@ -330,7 +330,7 @@ public class UserContactServiceImpl implements UserContactService {
 		userContact.setContactId(contactId);
 		userContact.setContactName(contactName);
 		userContact.setContactType(UserContactTypeEnum.USER.getType());
-		userContact.setCreatTime(curDate);
+		userContact.setCreateTime(curDate);
 		userContact.setLastUpdateTime(curDate);
 		userContact.setStatus(UserContactStatueEnum.FRIEND.getStatus());
 		userContactMapper.insert(userContact);

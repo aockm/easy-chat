@@ -18,7 +18,7 @@ public class Constants {
     public static final String COVER_IMAGE_SUFFIX = "_cover.png";
     public static final String APPLY_INFO_TEMPLATE = "我是%s";
 
-    public static final String REGEX_PASSWORD = "^(?=.*\\d)(?=.*[a-zA-Z])[\\da-zA-z~!@#$%^&*_]{8,18}$";
+    public static final String REGEX_PASSWORD = "^(?![a-zA-Z]+$)(?!\\d+$)(?![^\\da-zA-Z\\s]+$).{8,}$";
     public static final String APP_UPDATE_FOLDER = "app/";
     public static final String APP_TYPE_SUFFIX = ".exe";
     public static final String APP_NAME = "EasyChatSetup";

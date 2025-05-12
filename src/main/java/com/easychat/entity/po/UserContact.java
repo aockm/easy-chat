@@ -35,7 +35,7 @@ public class UserContact implements Serializable {
 	 */
 	@JsonFormat (pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
 	@DateTimeFormat (pattern = "yyyy-MM-dd HH:mm:ss")
-	private Date creatTime;
+	private Date createTime;
 
 	/**
 	 * 状态 0:非好友 1:好友 2:已删除 3:拉黑
@@ -94,12 +94,12 @@ public class UserContact implements Serializable {
 		return this.contactType;
 	}
 
-	public void setCreatTime(Date creatTime){
-		this.creatTime = creatTime;
+	public void setCreateTime(Date createTime){
+		this.createTime = createTime;
 	}
 
-	public Date getCreatTime(){
-		return this.creatTime;
+	public Date getCreateTime(){
+		return this.createTime;
 	}
 
 	public void setStatus(Integer status){
@@ -120,6 +120,6 @@ public class UserContact implements Serializable {
 
 	@Override
 	public String toString() {
-		return "用户ID:"+(userId== null?"空" : userId)+",联系人ID或群组ID:"+(contactId== null?"空" : contactId)+",联系人类型 0:好友 1:群组:"+(contactType== null?"空" : contactType)+",创建时间:"+(creatTime== null?"空" : DateUtils.format(creatTime, DateTimePatternEnum.YYYY_MM_DD_HH_MM_SS.getPattern()))+",状态 0:非好友 1:好友 2:已删除 3:拉黑:"+(status== null?"空" : status)+",最后更新时间:"+(lastUpdateTime== null?"空" : DateUtils.format(lastUpdateTime, DateTimePatternEnum.YYYY_MM_DD_HH_MM_SS.getPattern()));
+		return "用户ID:"+(userId== null?"空" : userId)+",联系人ID或群组ID:"+(contactId== null?"空" : contactId)+",联系人类型 0:好友 1:群组:"+(contactType== null?"空" : contactType)+",创建时间:"+(createTime== null?"空" : DateUtils.format(createTime, DateTimePatternEnum.YYYY_MM_DD_HH_MM_SS.getPattern()))+",状态 0:非好友 1:好友 2:已删除 3:拉黑:"+(status== null?"空" : status)+",最后更新时间:"+(lastUpdateTime== null?"空" : DateUtils.format(lastUpdateTime, DateTimePatternEnum.YYYY_MM_DD_HH_MM_SS.getPattern()));
 	}
 }
