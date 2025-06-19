@@ -30,11 +30,11 @@ public class AppUpdateQuery extends BaseQuery {
 	/**
 	 * 创建时间
 	 */
-	private Date creatTime;
+	private Date createTime;
 
-	private String creatTimeStart;
+	private String createTimeStart;
 
-	private String creatTimeEnd;
+	private String createTimeEnd;
 
 	/**
 	 * 发布状态 0:未发布 1:灰度发布 2:全网发布
@@ -85,12 +85,12 @@ public class AppUpdateQuery extends BaseQuery {
 		return this.updateDesc;
 	}
 
-	public void setCreatTime(Date creatTime){
-		this.creatTime = creatTime;
+	public void setCreateTime(Date createTime){
+		this.createTime = createTime;
 	}
 
-	public Date getCreatTime(){
-		return this.creatTime;
+	public Date getCreateTime(){
+		return this.createTime;
 	}
 
 	public void setStatus(Integer status){

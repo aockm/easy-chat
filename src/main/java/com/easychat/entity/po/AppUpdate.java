@@ -38,7 +38,7 @@ public class AppUpdate implements Serializable {
 	 */
 	@JsonFormat (pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
 	@DateTimeFormat (pattern = "yyyy-MM-dd HH:mm:ss")
-	private Date creatTime;
+	private Date createTime;
 
 	/**
 	 * 发布状态 0:未发布 1:灰度发布 2:全网发布
@@ -98,12 +98,12 @@ public class AppUpdate implements Serializable {
 		return this.updateDesc;
 	}
 
-	public void setCreatTime(Date creatTime){
-		this.creatTime = creatTime;
+	public void setCreateTime(Date createTime){
+		this.createTime = createTime;
 	}
 
-	public Date getCreatTime(){
-		return this.creatTime;
+	public Date getCreateTime(){
+		return this.createTime;
 	}
 
 	public void setStatus(Integer status){
@@ -140,6 +140,6 @@ public class AppUpdate implements Serializable {
 
 	@Override
 	public String toString() {
-		return "自增ID:"+(id== null?"空" : id)+",版本号:"+(version== null?"空" : version)+",更新描述:"+(updateDesc== null?"空" : updateDesc)+",创建时间:"+(creatTime== null?"空" : DateUtils.format(creatTime, DateTimePatternEnum.YYYY_MM_DD_HH_MM_SS.getPattern()))+",发布状态 0:未发布 1:灰度发布 2:全网发布:"+(status== null?"空" : status)+",灰度uid:"+(grayscaleUid== null?"空" : grayscaleUid)+",文件类型 0:本地文件 1:外链:"+(fileType== null?"空" : fileType)+",外链地址:"+(outerLink== null?"空" : outerLink);
+		return "自增ID:"+(id== null?"空" : id)+",版本号:"+(version== null?"空" : version)+",更新描述:"+(updateDesc== null?"空" : updateDesc)+",创建时间:"+(createTime== null?"空" : DateUtils.format(createTime, DateTimePatternEnum.YYYY_MM_DD_HH_MM_SS.getPattern()))+",发布状态 0:未发布 1:灰度发布 2:全网发布:"+(status== null?"空" : status)+",灰度uid:"+(grayscaleUid== null?"空" : grayscaleUid)+",文件类型 0:本地文件 1:外链:"+(fileType== null?"空" : fileType)+",外链地址:"+(outerLink== null?"空" : outerLink);
 	}
 }

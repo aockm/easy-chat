@@ -34,7 +34,7 @@
 			and contact_type = #{query.contactType}
 		</if>
 		<if test="query.createTime!=null">
-			and creat_time = #{query.creatTime}
+			and create_time = #{query.createTime}
 		</if>
 		<if test="query.status!=null">
 			and status = #{query.status}
@@ -115,8 +115,8 @@
 			<if test="bean.contactType!=null">
 				contact_type,
 			</if>
-			<if test="bean.creatTime!=null">
-				creat_time,
+			<if test="bean.createTime!=null">
+				create_time,
 			</if>
 			<if test="bean.status!=null">
 				status,
@@ -135,8 +135,8 @@
 			<if test="bean.contactType!=null">
 				#{bean.contactType},
 			</if>
-			<if test="bean.creatTime!=null">
-				#{bean.creatTime},
+			<if test="bean.createTime!=null">
+				#{bean.createTime},
 			</if>
 			<if test="bean.status!=null">
 				#{bean.status},
@@ -160,7 +160,7 @@
 			<if test="bean.contactType!=null">
 				contact_type,
 			</if>
-			<if test="bean.creatTime!=null">
+			<if test="bean.createTime!=null">
 				creat_time,
 			</if>
 			<if test="bean.status!=null">
@@ -180,8 +180,8 @@
 			<if test="bean.contactType!=null">
 				#{bean.contactType},
 			</if>
-			<if test="bean.creatTime!=null">
-				#{bean.creatTime},
+			<if test="bean.createTime!=null">
+				#{bean.createTime},
 			</if>
 			<if test="bean.status!=null">
 				#{bean.status},
@@ -206,7 +206,7 @@
 		INSERT INTO user_contact(user_id,contact_id,contact_type,creat_time,status,last_update_time)values
 		<foreach collection="list" item="item" separator=",">
 		(
-			#{item.userId},#{item.contactId},#{item.contactType},#{item.creatTime},#{item.status},#{item.lastUpdateTime}
+			#{item.userId},#{item.contactId},#{item.contactType},#{item.createTime},#{item.status},#{item.lastUpdateTime}
 		)
 		</foreach>
 	</insert>
@@ -215,7 +215,7 @@
 	<insert id="insertOrUpdateBatch" parameterType="com.easychat.entity.po.UserContact">
 		INSERT INTO user_contact(user_id,contact_id,contact_type,creat_time,status,last_update_time)values
 		<foreach collection="list" item="item" separator=",">
-			(#{item.userId},#{item.contactId},#{item.contactType},#{item.creatTime},#{item.status},#{item.lastUpdateTime})
+			(#{item.userId},#{item.contactId},#{item.contactType},#{item.createTime},#{item.status},#{item.lastUpdateTime})
 		</foreach>
 		on DUPLICATE key update
 		user_id = VALUES(user_id),
@@ -252,8 +252,8 @@
 			<if test="bean.contactType!=null">
 				contact_type = #{bean.contactType},
 			</if>
-			<if test="bean.creatTime!=null">
-				creat_time = #{bean.creatTime},
+			<if test="bean.createTime!=null">
+				create_time = #{bean.createTime},
 			</if>
 			<if test="bean.status!=null">
 				status = #{bean.status},
@@ -277,8 +277,8 @@
 			<if test="bean.contactType!=null">
 				contact_type = #{bean.contactType},
 			</if>
-			<if test="bean.creatTime!=null">
-				creat_time = #{bean.creatTime},
+			<if test="bean.createTime!=null">
+				create_time = #{bean.createTime},
 			</if>
 			<if test="bean.status!=null">
 				status = #{bean.status},

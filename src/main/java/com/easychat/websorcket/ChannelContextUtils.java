@@ -83,7 +83,7 @@ public class ChannelContextUtils {
         List<ChatSessionUser> chatSessionUserList = chatSessionUserService.findListByParam(chatSessionUserQuery);
 
         WsInitData wsInitData = new WsInitData();
-        wsInitData.setChatSessionUserList(chatSessionUserList);
+        wsInitData.setChatSessionList(chatSessionUserList);
         // 2.查询聊天信息
         wsInitData.setChatMessageList(new ArrayList<>());
         // 3.查询好友申请

@@ -26,6 +26,8 @@ import com.easychat.utils.CopyTools;
 import com.easychat.utils.StringTools;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,6 +39,7 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @Service("userInfoService")
 public class UserInfoServiceImpl implements UserInfoService {
+	private static final Logger log = LoggerFactory.getLogger(UserInfoServiceImpl.class);
 	@Resource
 	private UserInfoMapper<UserInfo,UserInfoQuery> userInfoMapper;
 
@@ -141,6 +144,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 
 
 
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public void register(String email, String nickname, String password) throws BusinessException {
 		UserInfo userInfo = this.userInfoMapper.selectByEmail(email);
@@ -158,9 +162,10 @@ public class UserInfoServiceImpl implements UserInfoService {
 		userInfo.setJoinType(JoinTypeEnum.APPLY.getType());
 		userInfo.setStatus(UserStatusEnum.ENABLE.getStatus());
 		this.userInfoMapper.insert(userInfo);
-
+		log.info("创建用户信息");
 		// 创建机器人好友
 		userContactService.addContact4Robot(userId);
+		log.info("创建机器人好友");
 
 	}
 

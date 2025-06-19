@@ -187,7 +187,7 @@ public class AppUpdateServiceImpl implements AppUpdateService {
 
 
 		if(appUpdate.getId()==null){
-			appUpdate.setCreatTime(new Date());
+			appUpdate.setCreateTime(new Date());
 			appUpdate.setStatus(AppUpdateStatusEnum.INIT.getStatus());
 			appUpdateMapper.insert(appUpdate);
 		}else {

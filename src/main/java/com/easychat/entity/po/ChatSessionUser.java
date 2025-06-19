@@ -1,5 +1,7 @@
 package com.easychat.entity.po;
 
+import com.easychat.enums.UserContactTypeEnum;
+
 import java.io.Serializable;
 
 
@@ -8,6 +10,9 @@ import java.io.Serializable;
  *@date: 2025/04/21
  */
 public class ChatSessionUser implements Serializable {
+
+
+
 	/**
 	 * 用户ID
 	 */
@@ -33,6 +38,18 @@ public class ChatSessionUser implements Serializable {
 	private String lastReceiveTime;
 
 	private Integer memberCount;
+
+	private Integer contactType;
+
+
+
+	public Integer getContactType() {
+		return UserContactTypeEnum.getByPrefix(contactId).getType();
+	}
+
+	public void setContactType(Integer contactType) {
+		this.contactType = contactType;
+	}
 
 	public Integer getMemberCount() {
 		return memberCount;
