@@ -19,7 +19,7 @@
 
 	<!--通用查询结果列-->
 	<sql id="base_column_list" >
-		user_id,contact_id,contact_type,creat_time,status,last_update_time
+		user_id,contact_id,contact_type,create_time,status,last_update_time
 	</sql>
 
 	<!--基础查询条件-->
@@ -161,7 +161,7 @@
 				contact_type,
 			</if>
 			<if test="bean.createTime!=null">
-				creat_time,
+				create_time,
 			</if>
 			<if test="bean.status!=null">
 				status,
@@ -203,7 +203,7 @@
 
 	<!--添加（批量插入）-->
 	<insert id="insertBatch" parameterType="com.easychat.entity.po.UserContact">
-		INSERT INTO user_contact(user_id,contact_id,contact_type,creat_time,status,last_update_time)values
+		INSERT INTO user_contact(user_id,contact_id,contact_type,create_time,status,last_update_time)values
 		<foreach collection="list" item="item" separator=",">
 		(
 			#{item.userId},#{item.contactId},#{item.contactType},#{item.createTime},#{item.status},#{item.lastUpdateTime}
@@ -213,7 +213,7 @@
 
 	<!-- 批量添加 修改（批量插入）-->
 	<insert id="insertOrUpdateBatch" parameterType="com.easychat.entity.po.UserContact">
-		INSERT INTO user_contact(user_id,contact_id,contact_type,creat_time,status,last_update_time)values
+		INSERT INTO user_contact(user_id,contact_id,contact_type,create_time,status,last_update_time)values
 		<foreach collection="list" item="item" separator=",">
 			(#{item.userId},#{item.contactId},#{item.contactType},#{item.createTime},#{item.status},#{item.lastUpdateTime})
 		</foreach>
@@ -221,7 +221,7 @@
 		user_id = VALUES(user_id),
 		contact_id = VALUES(contact_id),
 		contact_type = VALUES(contact_type),
-		creat_time = VALUES(creat_time),
+		create_time = VALUES(create_time),
 		status = VALUES(status)
 	</insert>
 
@@ -232,6 +232,7 @@
 		from user_contact
 		where user_id=#{userId}
 	</select>
+
 	<!-- 根据UserIdAndContactId查询 -->
 	<select id="selectByUserIdAndContactId" resultMap="base_result_map">
 		select <include refid="base_column_list"/>

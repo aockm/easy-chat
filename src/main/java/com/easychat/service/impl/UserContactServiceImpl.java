@@ -210,7 +210,7 @@ public class UserContactServiceImpl implements UserContactService {
 			joinType = groupInfo.getJoinType();
 
 		}else {
-			UserInfo userInfo = userContactMapper.selectByUserId(contactId);
+			UserInfo userInfo = userInfoMapper.selectByUserId(contactId);
 			if(userInfo==null){
 				throw new BusinessException(ResponseCodeEnum.CODE_600);
 			}
@@ -306,7 +306,7 @@ public class UserContactServiceImpl implements UserContactService {
 		}
 
 		// 批量插入
-		userContactMapper.insertOrUpdate(contactList);
+		userContactMapper.insertBatch(contactList);
 
 		// TODO 如果是好友，接受人也添加申请人为好友 添加缓存
 

@@ -23,7 +23,7 @@
 
 	<!--通用查询结果列-->
 	<sql id="base_column_list" >
-		id,version,update_desc,creat_time,status,grayscale_uid,file_type,outer_link
+		id,version,update_desc,create_time,status,grayscale_uid,file_type,outer_link
 	</sql>
 
 	<!--基础查询条件-->
@@ -110,7 +110,7 @@
 				update_desc,
 			</if>
 			<if test="bean.createTime!=null">
-				creat_time,
+				create_time,
 			</if>
 			<if test="bean.status!=null">
 				status,
@@ -167,7 +167,7 @@
 				update_desc,
 			</if>
 			<if test="bean.createTime!=null">
-				creat_time,
+				create_time,
 			</if>
 			<if test="bean.status!=null">
 				status,
@@ -220,7 +220,7 @@
 				update_desc = VALUES(update_desc),
 			</if>
 			<if test="bean.createTime!=null">
-				creat_time = VALUES(creat_time),
+				create_time = VALUES(create_time),
 			</if>
 			<if test="bean.status!=null">
 				status = VALUES(status),
@@ -239,7 +239,7 @@
 
 	<!--添加（批量插入）-->
 	<insert id="insertBatch" parameterType="com.easychat.entity.po.AppUpdate">
-		INSERT INTO app_update(version,update_desc,creat_time,status,grayscale_uid,file_type,outer_link)values
+		INSERT INTO app_update(version,update_desc,create_time,status,grayscale_uid,file_type,outer_link)values
 		<foreach collection="list" item="item" separator=",">
 		(
 			#{item.version},#{item.updateDesc},#{item.createTime},#{item.status},#{item.grayscaleUid},#{item.fileType},#{item.outerLink}
@@ -249,14 +249,14 @@
 
 	<!-- 批量添加 修改（批量插入）-->
 	<insert id="insertOrUpdateBatch" parameterType="com.easychat.entity.po.AppUpdate">
-		INSERT INTO app_update(version,update_desc,creat_time,status,grayscale_uid,file_type,outer_link)values
+		INSERT INTO app_update(version,update_desc,create_time,status,grayscale_uid,file_type,outer_link)values
 		<foreach collection="list" item="item" separator=",">
 			(#{item.version},#{item.updateDesc},#{item.createTime},#{item.status},#{item.grayscaleUid},#{item.fileType},#{item.outerLink})
 		</foreach>
 		on DUPLICATE key update
 		version = VALUES(version),
 		update_desc = VALUES(update_desc),
-		creat_time = VALUES(creat_time),
+		create_time = VALUES(create_time),
 		status = VALUES(status),
 		grayscale_uid = VALUES(grayscale_uid),
 		file_type = VALUES(file_type),
@@ -283,7 +283,7 @@
 				update_desc = #{bean.updateDesc},
 			</if>
 			<if test="bean.createTime!=null">
-				creat_time = #{bean.createTime},
+				create_time = #{bean.createTime},
 			</if>
 			<if test="bean.status!=null">
 				status = #{bean.status},
